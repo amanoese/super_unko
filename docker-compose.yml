@@ -27,3 +27,11 @@ services:
       - "$PWD:/work"
     entrypoint:
       - "shellcheck"
+
+  kcov:
+    build:
+      context: ./
+      dockerfile: ./build/kcov/Dockerfile
+    image: kcov
+    volumes:
+      - "$PWD/coverage:/tmp"
