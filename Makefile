@@ -22,8 +22,9 @@ clean: ## Clear files
 
 .PHONY: setup
 setup: ## Setup docker containers
-	docker-compose build --parallel
-	docker-compose -f docker-compose-ci.yml build --parallel
+	docker-compose build
+	docker-compose -f docker-compose-ci.yml build
+	docker-compose -f docker-compose-tools.yml build
 
 .PHONY: test-bash-version
 test-bash-version: ## Run tests all bash version
