@@ -11,19 +11,11 @@ cd test || exit 1
 
 main() {
   # 引数未指定の場合は全てのテストを実行する
-  local error_count=0
   local ret
   if [[ $# -lt 1 ]]; then
-    for test_script in *-test.bats; do
-      echo -e "${BLUE}${test_script}${RESET}"
-      ./"$test_script"
-      ret=$?
-      if [[ "$ret" -ne 0 ]]; then
-        error_count=$((error_count + 1))
-      fi
-      echo
-    done
-    return "$error_count"
+    bats .
+    ret=$?
+    return "$ret"
   fi
 
   local cmd="$1"
