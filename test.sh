@@ -17,11 +17,20 @@ main() {
   fi
 
   # 引数未指定の場合は全てのテストを実行する
-  local ret
   if [[ $# -lt 1 ]]; then
-    "${bats_cmd[@]}" .
-    ret=$?
-    return "$ret"
+    local error_count=0
+    for test_script in *-test.bats; do
+      echo -e "${BLUE}${test_script}${RESET}"
+
+      local ret
+      "${bats_cmd[@]}" "$test_script"
+      ret=$?
+      if [[ "$ret" -ne 0 ]]; then
+        error_count=$((error_count + 1))
+      fi
+      echo
+    done
+    return "$error_count"
   fi
 
   local cmd="$1"
