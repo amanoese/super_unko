@@ -21,7 +21,13 @@ clean: ## Clear files
 	$(RM) super_unko.tar.gz pkg/*.tmp
 
 .PHONY: setup
-setup: ## Setup docker containers
+setup: ## Setup super_unko, linter, formatter and coverage tools docker image
+	docker-compose build
+	docker-compose -f docker-compose-ci.yml build ci_sh_default
+	docker-compose -f docker-compose-tools.yml build
+
+.PHONY: setup-all
+setup-all: ## Setup all docker images
 	docker-compose build
 	docker-compose -f docker-compose-ci.yml build
 	docker-compose -f docker-compose-tools.yml build
@@ -29,3 +35,7 @@ setup: ## Setup docker containers
 .PHONY: test-bash-version
 test-bash-version: ## Run tests all bash version
 	docker-compose -f docker-compose-ci.yml up
+
+.PHONY: coverage
+coverage: ## Report test coverage
+	docker-compose -f docker-compose-tools.yml run coverage
