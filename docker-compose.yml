@@ -28,11 +28,11 @@ services:
     entrypoint:
       - "shellcheck"
 
-  kcov:
+  coverage:
     build:
       context: ./
-      dockerfile: ./build/kcov/Dockerfile
-    image: kcov
+      dockerfile: ./build/coverage/Dockerfile
+    image: coverage
     volumes:
       - "$PWD:/usr/local/src/super_unko"
     working_dir: /usr/local/src/super_unko
