@@ -36,5 +36,7 @@ services:
     volumes:
       - "$PWD:/usr/local/src/super_unko"
     working_dir: /usr/local/src/super_unko
+    environment:
+      - TRAVIS_JOB_ID
     entrypoint:
       - ./test.sh
