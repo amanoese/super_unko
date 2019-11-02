@@ -10,10 +10,16 @@ readonly RESET=$'\x1b[m'
 cd test || exit 1
 
 main() {
+  local bats_cmd=(bats)
+  # CI上で実行されるときはtap形式で出力する
+  if [[ ! "$TRAVIS_JOB_ID" == "" ]]; then
+    bats_cmd+=("--tap")
+  fi
+
   # 引数未指定の場合は全てのテストを実行する
   local ret
   if [[ $# -lt 1 ]]; then
-    bats .
+    "${bats_cmd[@]}" .
     ret=$?
     return "$ret"
   fi
@@ -30,7 +36,7 @@ main() {
   for test_script in *-test.bats; do
     if [[ "$cmd"-test.bats == "$test_script" ]]; then
       echo -e "${BLUE}${test_script}${RESET}"
-      ./"$test_script"
+      "${bats_cmd[@]}" "$test_script"
       ret=$?
       return "$ret"
     fi

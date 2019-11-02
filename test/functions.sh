@@ -6,7 +6,7 @@ coverage() {
     local options=(--bash-dont-parse-binary-dir)
 
     # CI上で実行されているときだけオプションを追加
-    if [[ -z "$TRAVIS_JOB_ID" ]]; then
+    if [[ ! "$TRAVIS_JOB_ID" == "" ]]; then
       options+=("--coveralls-id=$TRAVIS_JOB_ID")
     fi
 
