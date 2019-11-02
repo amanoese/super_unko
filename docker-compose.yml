@@ -34,4 +34,7 @@ services:
       dockerfile: ./build/kcov/Dockerfile
     image: kcov
     volumes:
-      - "$PWD/coverage:/tmp"
+      - "$PWD:/usr/local/src/super_unko"
+    working_dir: /usr/local/src/super_unko
+    entrypoint:
+      - ./test.sh
