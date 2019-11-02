@@ -64,13 +64,17 @@ before_install:
 install:
     ## Build base image and linter image and formatter image
   - mkdir -p $CACHE_DIR
-  - docker-compose build --parallel
+  - docker-compose build
     ## Build CI image
   - docker-compose -f docker-compose-ci.yml build ci_sh_${SH_VERSION}
+    ## Build linter, formatter and coverage image
+  - docker-compose -f docker-compose-tools.yml build linter formatter
+  - if [[ "$SH_VERSION" == default ]]; then docker-compose -f docker-compose-tools.yml build coverage; fi
 
 script:
   - make lint
   - docker-compose -f docker-compose-ci.yml run ci_sh_${SH_VERSION}
+  - if [[ "$SH_VERSION" == default ]]; then docker-compose -f docker-compose-tools.yml run coverage ; fi
 
 before_cache:
   - docker save "ubuntu" | gzip -c > $UBUNTU_CACHE_FILE
