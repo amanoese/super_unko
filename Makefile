@@ -35,7 +35,3 @@ setup-all: ## Setup all docker images
 .PHONY: test-bash-version
 test-bash-version: ## Run tests all bash version
 	docker-compose -f docker-compose-ci.yml up
-
-.PHONY: coverage
-coverage: ## Report test coverage
-	docker-compose -f docker-compose-tools.yml run coverage
