@@ -28,9 +28,11 @@ services:
       dockerfile: ./build/coverage/Dockerfile
     image: coverage
     volumes:
-      - "$PWD:/usr/local/src/super_unko"
-    working_dir: /usr/local/src/super_unko
-    environment:
-      - TRAVIS_JOB_ID
+      - "$PWD:/home/kcov/super_unko"
+    working_dir: /home/kcov/super_unko
     entrypoint:
       - ./test.sh
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
